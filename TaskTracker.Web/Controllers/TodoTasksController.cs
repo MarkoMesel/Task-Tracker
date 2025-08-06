@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using ASPProject1.Web.Data;
-using ASPProject1.Web.Models;
+using TaskTracker.Web.Data;
+using TaskTracker.Web.Models;
 
-namespace ASPProject1.Web.Controllers
+namespace TaskTracker.Web.Controllers
 {
     public class TodoTasksController : Controller
     {

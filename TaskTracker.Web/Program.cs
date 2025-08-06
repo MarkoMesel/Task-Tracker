@@ -1,4 +1,4 @@
-using ASPProject1.Web.Data;
+using TaskTracker.Web.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

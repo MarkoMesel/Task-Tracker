@@ -1,4 +1,4 @@
-﻿namespace ASPProject1.Web.Models
+﻿namespace TaskTracker.Web.Models
 {
     public class TodoTask
     {

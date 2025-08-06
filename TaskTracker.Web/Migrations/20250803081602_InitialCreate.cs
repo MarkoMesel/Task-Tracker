@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace ASPProject1.Web.Migrations
+namespace TaskTracker.Web.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration

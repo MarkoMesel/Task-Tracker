@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ASPProject1.Web.Models;
+using TaskTracker.Web.Models;
 
-namespace ASPProject1.Web.Data
+namespace TaskTracker.Web.Data
 {
     public class AppDbContext : DbContext
     {

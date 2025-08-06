@@ -1,8 +1,8 @@
-using ASPProject1.Web.Models;
+using TaskTracker.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace ASPProject1.Web.Controllers
+namespace TaskTracker.Web.Controllers
 {
     public class HomeController : Controller
     {
