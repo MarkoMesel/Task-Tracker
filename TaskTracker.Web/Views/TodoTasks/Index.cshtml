@@ -9,45 +9,25 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsDone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DueDate)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsDone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DueDate)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    @foreach (var task in Model)
+    {
+        var cardClass = task.IsDone ? "bg-light text-decoration-line-through" : "bg-white";
+        <div class="col">
+            <div class="card @cardClass h-100">
+                <div class="card-body">
+                    <h5 class="card-title">@task.Title</h5>
+                    <p class="card-text">@task.Description</p>
+                    <p class="card-text"><small class="text-muted">Due: @(task.DueDate?.ToString("MMM dd, yyyy") ?? "No due date")</small></p>
+                    <p class="card-text">
+                        Status: @(task.IsDone ? "Done" : "Pending")
+                    </p>
+                    <a asp-action="Edit" asp-route-id="@task.Id" class="btn btn-sm btn-outline-primary">Edit</a>
+                    <a asp-action="Details" asp-route-id="@task.Id" class="btn btn-sm btn-outline-secondary">Details</a>
+                    <a asp-action="Delete" asp-route-id="@task.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
