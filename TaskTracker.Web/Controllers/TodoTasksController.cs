@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using TaskTracker.Models;
 using TaskTracker.Web.Data;
 using TaskTracker.Web.Models;
 
@@ -20,9 +21,24 @@ namespace TaskTracker.Web.Controllers
         }
 
         // GET: TodoTasks
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string status)
         {
-            return View(await _context.Tasks.ToListAsync());
+            var tasks = _context.Tasks.AsQueryable();
+
+            if (!string.IsNullOrEmpty(status))
+            {
+                if (status == TaskStatuses.Done)
+                {
+                    tasks = tasks.Where(t => t.IsDone);
+                }
+                else if (status == TaskStatuses.Pending)
+                {
+                    tasks = tasks.Where(t => !t.IsDone);
+                }
+            }
+
+            ViewData["CurrentStatus"] = status;
+            return View(await tasks.ToListAsync());
         }
 
         // GET: TodoTasks/Details/5

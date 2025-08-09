@@ -1,4 +1,5 @@
-﻿@model IEnumerable<TaskTracker.Web.Models.TodoTask>
+﻿@using TaskTracker.Models
+@model IEnumerable<TaskTracker.Web.Models.TodoTask>
 
 @{
     ViewData["Title"] = "Index";
@@ -6,9 +7,19 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <a class="btn @(ViewData["CurrentStatus"]?.ToString() == "" ? "btn-primary" : "btn-outline-secondary")"
+           asp-action="Index" asp-route-status="">All</a>
+        <a class="btn @(ViewData["CurrentStatus"]?.ToString() == TaskStatuses.Done ? "btn-primary" : "btn-outline-secondary")"
+           asp-action="Index" asp-route-status="@TaskStatuses.Done">Done</a>
+        <a class="btn @(ViewData["CurrentStatus"]?.ToString() == TaskStatuses.Pending ? "btn-primary" : "btn-outline-secondary")"
+           asp-action="Index" asp-route-status="@TaskStatuses.Pending">Pending</a>
+    </div>
+    <div>
+        <a class="btn btn-success" asp-action="Create">Create New</a>
+    </div>
+</div>
 
 <div class="row row-cols-1 row-cols-md-3 g-4">
     @foreach (var task in Model)
