@@ -21,24 +21,46 @@ namespace TaskTracker.Web.Controllers
         }
 
         // GET: TodoTasks
-        public async Task<IActionResult> Index(string status)
+        public async Task<IActionResult> Index(string filterCondition, string sortOrder)
         {
             var tasks = _context.Tasks.AsQueryable();
 
-            if (!string.IsNullOrEmpty(status))
-            {
-                if (status == TaskStatuses.Done)
-                {
-                    tasks = tasks.Where(t => t.IsDone);
-                }
-                else if (status == TaskStatuses.Pending)
-                {
-                    tasks = tasks.Where(t => !t.IsDone);
-                }
-            }
+            tasks = FilterTasks(tasks, filterCondition);
+            tasks = SortTasks(tasks, sortOrder);
 
-            ViewData["CurrentStatus"] = status;
+            ViewData["filterCondition"] = filterCondition;
+            ViewData["sortOrder"] = sortOrder;
             return View(await tasks.ToListAsync());
+        }
+
+        private static IQueryable<TodoTask> FilterTasks(IQueryable<TodoTask> tasks, string filterCondition)
+        {
+            tasks = filterCondition switch
+            {
+                TaskStatuses.Done => tasks.Where(t => t.IsDone),
+                TaskStatuses.Pending => tasks = tasks.Where(t => !t.IsDone),
+                _ => tasks
+            };
+
+            return tasks;
+        }
+
+        private static IQueryable<TodoTask> SortTasks(IQueryable<TodoTask> tasks, string sortOrder)
+        {
+            tasks = sortOrder switch
+            {
+                SortOptions.TitleAsc => tasks.OrderBy(t => t.Title),
+                SortOptions.TitleDesc => tasks.OrderByDescending(t => t.Title),
+                SortOptions.DueDateAsc => tasks
+                    .OrderBy(t => t.DueDate.HasValue ? TaskOrder.HasDueDate : TaskOrder.NoDueDate)
+                    .ThenBy(t => t.DueDate),                        
+                SortOptions.DueDateDesc => tasks
+                    .OrderBy(t => t.DueDate.HasValue ? TaskOrder.HasDueDate : TaskOrder.NoDueDate)
+                    .ThenByDescending(t => t.DueDate),
+                _ => tasks
+            };
+
+            return tasks;
         }
 
         // GET: TodoTasks/Details/5

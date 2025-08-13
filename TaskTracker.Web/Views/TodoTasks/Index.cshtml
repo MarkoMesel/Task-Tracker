@@ -9,12 +9,24 @@
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <div>
-        <a class="btn @(ViewData["CurrentStatus"]?.ToString() == "" ? "btn-primary" : "btn-outline-secondary")"
-           asp-action="Index" asp-route-status="">All</a>
-        <a class="btn @(ViewData["CurrentStatus"]?.ToString() == TaskStatuses.Done ? "btn-primary" : "btn-outline-secondary")"
-           asp-action="Index" asp-route-status="@TaskStatuses.Done">Done</a>
-        <a class="btn @(ViewData["CurrentStatus"]?.ToString() == TaskStatuses.Pending ? "btn-primary" : "btn-outline-secondary")"
-           asp-action="Index" asp-route-status="@TaskStatuses.Pending">Pending</a>
+        <!-- Filter buttons -->
+        <a class="btn @(ViewData["filterCondition"]?.ToString() == "" ? "btn-primary" : "btn-outline-secondary")"
+           asp-action="Index" asp-route-filterCondition="">All</a>
+        <a class="btn @(ViewData["filterCondition"]?.ToString() == TaskStatuses.Done ? "btn-primary" : "btn-outline-secondary")"
+           asp-action="Index" asp-route-filterCondition="@TaskStatuses.Done">Done</a>
+        <a class="btn @(ViewData["filterCondition"]?.ToString() == TaskStatuses.Pending ? "btn-primary" : "btn-outline-secondary")"
+           asp-action="Index" asp-route-filterCondition="@TaskStatuses.Pending">Pending</a>
+    </div>
+    <div>
+        <!-- Sort buttons -->
+        <a class="btn @(ViewData["sortOrder"]?.ToString() == SortOptions.TitleAsc ? "btn-primary" : "btn-outline-secondary")"
+           asp-action="Index" asp-route-sortOrder="@SortOptions.TitleAsc" asp-route-filterCondition="@ViewData["filterCondition"]">Title ↑</a>
+        <a class="btn @(ViewData["sortOrder"]?.ToString() == SortOptions.TitleDesc ? "btn-primary" : "btn-outline-secondary")"
+           asp-action="Index" asp-route-sortOrder="@SortOptions.TitleDesc" asp-route-filterCondition="@ViewData["filterCondition"]">Title ↓</a>
+        <a class="btn @(ViewData["sortOrder"]?.ToString() == SortOptions.DueDateAsc ? "btn-primary" : "btn-outline-secondary")"
+           asp-action="Index" asp-route-sortOrder="@SortOptions.DueDateAsc" asp-route-filterCondition="@ViewData["filterCondition"]">Due Date ↑</a>
+        <a class="btn @(ViewData["sortOrder"]?.ToString() == SortOptions.DueDateDesc ? "btn-primary" : "btn-outline-secondary")"
+           asp-action="Index" asp-route-sortOrder="@SortOptions.DueDateDesc" asp-route-filterCondition="@ViewData["filterCondition"]">Due Date ↓</a>
     </div>
     <div>
         <a class="btn btn-success" asp-action="Create">Create New</a>
