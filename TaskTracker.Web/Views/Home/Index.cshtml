@@ -1,7 +1,12 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Welcome";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Hello World!</h1>
+<div class="text-center mt-5">
+    <h1 class="display-4">Welcome!</h1>
+    <p class="lead">This is a Task Tracker app which will help you organise your tasks more efficiently.</p>
+
+    <a class="btn btn-primary btn-lg mt-3" asp-controller="TodoTasks" asp-action="Index">
+        Go to My Tasks
+    </a>
 </div>
