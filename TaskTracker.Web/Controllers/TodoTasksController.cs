@@ -14,10 +14,12 @@ namespace TaskTracker.Web.Controllers
     public class TodoTasksController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly KafkaProducerService _kafkaProducer;
 
         public TodoTasksController(AppDbContext context)
         {
             _context = context;
+            _kafkaProducer = new KafkaProducerService();
         }
 
         // GET: TodoTasks
@@ -98,6 +100,7 @@ namespace TaskTracker.Web.Controllers
             {
                 _context.Add(todoTask);
                 await _context.SaveChangesAsync();
+                await _kafkaProducer.SendEventAsync("TaskCreated", new { todoTask.Id, todoTask.Title });
                 return RedirectToAction(nameof(Index));
             }
             return View(todoTask);
