@@ -140,6 +140,7 @@ namespace TaskTracker.Web.Controllers
                 {
                     _context.Update(todoTask);
                     await _context.SaveChangesAsync();
+                    await _kafkaProducer.SendEventAsync("TaskUpdated", new { todoTask.Id, todoTask.Title });
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -184,9 +185,10 @@ namespace TaskTracker.Web.Controllers
             if (todoTask != null)
             {
                 _context.Tasks.Remove(todoTask);
+                await _context.SaveChangesAsync();
+                await _kafkaProducer.SendEventAsync("TaskDeleted", new { todoTask.Id, todoTask.Title });
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
